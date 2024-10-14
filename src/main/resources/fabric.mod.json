@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "fluxcore",
+  "version": "${version}",
+  "name": "FluxCore",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/fluxcore/icon.png",
+  "environment": "server",
+  "entrypoints": {
+    "main": [
+      "me.quickscythe.fluxcore.Initializer"
+    ]
+  },
+  "mixins": [
+    "fluxcore.mixins.json",
+    {
+      "config": "fluxcore.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
