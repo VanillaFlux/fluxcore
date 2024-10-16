@@ -115,7 +115,7 @@ public class AccountManager extends DataManager {
     }
 
     public int getQuickID(UUID uuid) {
-        if (StorageManager.getStorage().get("playerdata." + uuid) == null) {
+        if (StorageManager.getStorage().get("playerdata." + uuid + ".qid") == null) {
             StorageManager.getStorage().load("playerdata." + uuid);
         }
         return StorageManager.getStorage().getInt("playerdata." + uuid + ".qid");
