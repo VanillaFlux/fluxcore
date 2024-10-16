@@ -17,11 +17,12 @@ public class StorageManager {
     private static final InternalStorage storage = new InternalStorage();
     private static final Map<String, DataManager> dataManagers = new HashMap<>();
     public static void init() {
-        registerDataManager(new AccountManager());
+
         configFolder = new File("fluxdata");
         if (!configFolder.exists()) {
             CoreUtils.getLoggerUtils().log("Creating " + configFolder.getName() + " folder: " + configFolder.mkdir());
         }
+        registerDataManager(new AccountManager());
         ConfigFile file = ConfigFileManager.getFile("config", "defaults/config.json");
 
     }
