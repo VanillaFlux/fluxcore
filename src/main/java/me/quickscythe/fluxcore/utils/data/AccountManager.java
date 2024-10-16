@@ -108,17 +108,17 @@ public class AccountManager extends DataManager {
     }
 
     public String getUsername(UUID uuid) {
-        if (StorageManager.getStorage().get("playerdata." + uuid) == null) {
+        if (StorageManager.getStorage().get("fluxdata.playerdata." + uuid) == null) {
             StorageManager.getStorage().load("playerdata." + uuid);
         }
-        return StorageManager.getStorage().getString("playerdata." + uuid + ".username");
+        return StorageManager.getStorage().getString("fluxdata.playerdata." + uuid + ".username");
     }
 
     public int getQuickID(UUID uuid) {
-        if (StorageManager.getStorage().get("playerdata." + uuid + ".qid") == null) {
+        if (StorageManager.getStorage().get("fluxdata.playerdata." + uuid + ".qid") == null) {
             StorageManager.getStorage().load("playerdata." + uuid);
         }
-        return StorageManager.getStorage().getInt("playerdata." + uuid + ".qid");
+        return StorageManager.getStorage().getInt("fluxdata.playerdata." + uuid + ".qid");
     }
 
     public boolean isAltOrShadow(ServerPlayerEntity player) {

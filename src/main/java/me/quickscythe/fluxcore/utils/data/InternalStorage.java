@@ -75,6 +75,7 @@ public class InternalStorage {
 
 
     public Object get(String path) {
+//        path = StorageManager.getConfigFolder().getName() + "." + path;
         String[] paths = path.split("\\.");
 
         JSONObject current = data;
