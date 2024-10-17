@@ -11,6 +11,8 @@ public class Initializer extends FluxInitializer {
     public void onInitialize() {
         this.NAME = "FluxCore";
         this.ID = "fluxcore";
+        super.onInitialize();
+
         CoreUtils.init(this);
 
         ServerListener listener = new ServerListener();
