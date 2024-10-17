@@ -5,10 +5,12 @@ import me.quickscythe.fluxcore.utils.CoreUtils;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 
-public class Initializer implements ModInitializer {
+public class Initializer extends FluxInitializer {
 
     @Override
     public void onInitialize() {
+        this.NAME = "FluxCore";
+        this.ID = "fluxcore";
         CoreUtils.init(this);
 
         ServerListener listener = new ServerListener();

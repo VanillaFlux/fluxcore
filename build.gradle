@@ -1,3 +1,11 @@
+import org.objectweb.asm.ClassReader
+import org.objectweb.asm.ClassVisitor
+import org.objectweb.asm.ClassWriter
+import org.objectweb.asm.MethodVisitor
+import org.objectweb.asm.Opcodes
+
+import java.nio.file.Files
+
 plugins {
     id 'fabric-loom' version '1.8-SNAPSHOT'
     id 'maven-publish'
@@ -39,6 +47,8 @@ dependencies {
 
     modImplementation "com.zaxxer:HikariCP:4.0.3"
 
+    implementation "org.ow2.asm:asm:$asm_version"
+
 }
 
 processResources {
@@ -53,6 +63,40 @@ processResources {
                 "loader_version": project.loader_version
     }
 }
+
+task modifyJavaField {
+    doLast {
+        def classFile = file("build/classes/java/main/me/quickscythe/$archives_base_name/Initializer.class")
+        def classReader = new ClassReader(Files.newInputStream(classFile.toPath()))
+        def classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES)
+        def mversion = mod_version.toString()
+        def mname = mod_name.toString()
+        def mid = archives_base_name.toString()
+        classReader.accept(new ClassVisitor(Opcodes.ASM9, classWriter) {
+            @Override
+            MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+                MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions)
+                if (name == "onInitialize") { // Target the specific method
+                    return new MethodVisitor(Opcodes.ASM9, mv) {
+                        @Override
+                        void visitCode() {
+                            super.visitCode()
+                            // Inject code at the beginning of the method
+                            mv.visitVarInsn(Opcodes.ALOAD, 0)
+                            mv.visitLdcInsn(mversion)
+                            mv.visitFieldInsn(Opcodes.PUTFIELD, "me/quickscythe/$archives_base_name/Initializer", "VERSION", "Ljava/lang/String;")
+                        }
+                    }
+                }
+                return mv
+            }
+        }, 0)
+
+        Files.write(classFile.toPath(), classWriter.toByteArray())
+    }
+}
+//compileJava.finalizedBy modifyJavaField
+jar.dependsOn modifyJavaField
 
 def targetJavaVersion = 21
 tasks.withType(JavaCompile).configureEach {

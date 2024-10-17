@@ -4,6 +4,8 @@ package me.quickscythe.fluxcore.utils.config;
 import json2.JSONObject;
 import me.quickscythe.fluxcore.utils.CoreUtils;
 import me.quickscythe.fluxcore.utils.logger.LoggerUtils;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.impl.launch.server.FabricServerLauncher;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -57,6 +59,7 @@ public class ConfigFile implements Config {
     }
 
     public void save() {
+
         CoreUtils.getLoggerUtils().log("Saving " + file.getName());
         try {
             FileWriter f2 = new FileWriter(file, false);
