@@ -40,6 +40,7 @@ public class ConfigFileManager {
             File file = new File(StorageManager.getConfigFolder(), filename + ".json");
             ConfigFile config = new ConfigFile(file, defaults);
             FILE_MAP.put(filename, config);
+            config.save();
         }
         return FILE_MAP.get(filename);
     }
