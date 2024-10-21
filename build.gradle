@@ -40,13 +40,7 @@ repositories {
         }
     }
 
-    maven {
-        name = "DevAuth"
-        url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1"
-        content {
-            includeGroup "me.djtheredstoner"
-        }
-    }
+
 }
 
 dependencies {
@@ -61,7 +55,7 @@ dependencies {
 
     implementation "org.ow2.asm:asm:$asm_version"
 
-    modImplementation "top.offsetmonkey538.meshlib:mesh-lib:$meshlib_version+$minecraft_version"
+    //modImplementation "top.offsetmonkey538.meshlib:mesh-lib:$meshlib_version+$minecraft_version"
 
 }
 
