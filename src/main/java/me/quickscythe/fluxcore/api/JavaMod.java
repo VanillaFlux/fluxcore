@@ -28,7 +28,6 @@ public class JavaMod {
         this.contact = metadata.getContact();
         this.dataFolder = new File("config/" + name +"/");
         if(!dataFolder.exists()) dataFolder.mkdirs();
-        CoreUtils.getLoggerUtils().log("Enabled " + name + " v" + version + " by " + authors.toString());
     }
 
     public String getName(){

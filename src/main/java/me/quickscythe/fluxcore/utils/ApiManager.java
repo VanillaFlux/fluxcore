@@ -1,7 +1,8 @@
 package me.quickscythe.fluxcore.utils;
 
+import me.quickscythe.fluxcore.api.config.ConfigManager;
+import me.quickscythe.fluxcore.api.config.files.Default;
 import org.json.JSONObject;
-import me.quickscythe.fluxcore.utils.config.ConfigFileManager;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -16,7 +17,7 @@ public class ApiManager {
     private static String API_URL = "";
 
     public static void init(){
-        API_URL = ConfigFileManager.getFile("config").getData().getString("api-url");
+        API_URL = (String) ConfigManager.getConfig(Default.class).get("api_url");
        generateNewToken();
     }
 

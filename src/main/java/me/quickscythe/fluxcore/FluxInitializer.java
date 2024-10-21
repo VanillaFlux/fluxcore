@@ -1,13 +1,12 @@
 package me.quickscythe.fluxcore;
 
+import me.quickscythe.fluxcore.api.FluxEntrypoint;
 import me.quickscythe.fluxcore.api.JavaMod;
-import me.quickscythe.fluxcore.utils.CoreUtils;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FluxInitializer implements ModInitializer {
+public class FluxInitializer extends FluxEntrypoint {
     public  String NAME = "FluxMod";
     public String ID = "fluxmod";
     public String VERSION = "DEBUG_VERSION";
@@ -17,19 +16,9 @@ public class FluxInitializer implements ModInitializer {
 
 
 
-    boolean debug(){
-        return VERSION.equalsIgnoreCase("DEBUG_VERSION");
-    }
-
     @Override
     public void onInitialize() {
-        FabricLoader.getInstance().getModContainer(ID).ifPresentOrElse(modContainer -> {
-            mod = new JavaMod(FabricLoader.getInstance().getModContainer(ID).get().getMetadata());
-        }, () -> LOGGER.error("Failed to get mod container for {}", ID));
+        System.out.println("TEST");
 
-        LOGGER.info("Initializing {} v{} ({})...", NAME, VERSION, ID);
-        if(debug()){
-            LOGGER.info("Starting debug mode...");
-        }
     }
 }

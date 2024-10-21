@@ -1,8 +1,9 @@
 package me.quickscythe.fluxcore.api.data;
 
+import me.quickscythe.fluxcore.api.JavaMod;
+import me.quickscythe.fluxcore.api.config.ConfigManager;
+import me.quickscythe.fluxcore.api.config.files.Default;
 import me.quickscythe.fluxcore.utils.CoreUtils;
-import me.quickscythe.fluxcore.utils.config.ConfigFile;
-import me.quickscythe.fluxcore.utils.config.ConfigFileManager;
 
 import java.io.*;
 import java.util.HashMap;
@@ -14,14 +15,15 @@ public class StorageManager {
 
     private static final InternalStorage storage = new InternalStorage();
     private static final Map<String, DataManager> dataManagers = new HashMap<>();
-    public static void init() {
+    public static void init(JavaMod mod) {
 
         configFolder = new File("fluxdata");
         if (!configFolder.exists()) {
             CoreUtils.getLoggerUtils().log("Creating " + configFolder.getName() + " folder: " + configFolder.mkdir());
         }
         registerDataManager(new AccountManager());
-        ConfigFile file = ConfigFileManager.getFile("config", "defaults/config.json");
+        ConfigManager.registerConfig(mod, Default.class);
+//        ConfigFile file = ConfigFileManager.getFile("config", "defaults/config.json");
 
     }
 

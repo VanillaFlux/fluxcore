@@ -11,7 +11,10 @@
   "environment": "server",
   "entrypoints": {
     "main": [
-      "me.quickscythe.fluxcore.Initializer"
+      "me.quickscythe.fluxcore.FabricInitializer"
+    ],
+    "fluxcore": [
+      "me.quickscythe.fluxcore.FluxInitializer"
     ]
   },
   "mixins": [
