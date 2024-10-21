@@ -1,8 +1,4 @@
-import org.objectweb.asm.ClassReader
-import org.objectweb.asm.ClassVisitor
-import org.objectweb.asm.ClassWriter
-import org.objectweb.asm.MethodVisitor
-import org.objectweb.asm.Opcodes
+import org.objectweb.asm.*
 
 import java.nio.file.Files
 
@@ -35,6 +31,22 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+
+    maven {
+        name = "OffsetMods538"
+        url = "https://maven.offsetmonkey538.top/releases"
+        content {
+            includeGroup "top.offsetmonkey538.meshlib"
+        }
+    }
+
+    maven {
+        name = "DevAuth"
+        url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1"
+        content {
+            includeGroup "me.djtheredstoner"
+        }
+    }
 }
 
 dependencies {
@@ -48,6 +60,8 @@ dependencies {
     modImplementation "com.zaxxer:HikariCP:4.0.3"
 
     implementation "org.ow2.asm:asm:$asm_version"
+
+    modImplementation "top.offsetmonkey538.meshlib:mesh-lib:$meshlib_version+$minecraft_version"
 
 }
 
