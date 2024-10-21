@@ -1,6 +1,5 @@
 package me.quickscythe.fluxcore.api;
 
-import me.quickscythe.fluxcore.utils.CoreUtils;
 import net.fabricmc.loader.api.metadata.ContactInformation;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.fabricmc.loader.api.metadata.Person;

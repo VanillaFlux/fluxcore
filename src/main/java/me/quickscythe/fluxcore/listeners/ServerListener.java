@@ -1,7 +1,7 @@
 package me.quickscythe.fluxcore.listeners;
 
+import me.quickscythe.fluxcore.api.logger.LoggerUtils;
 import org.json.JSONObject;
-import me.quickscythe.fluxcore.utils.CoreUtils;
 import me.quickscythe.fluxcore.api.data.AccountManager;
 import me.quickscythe.fluxcore.api.data.StorageManager;
 import me.quickscythe.fluxcore.api.sql.SqlUtils;
@@ -21,7 +21,7 @@ public class ServerListener implements ServerPlayConnectionEvents.Join, ServerPl
         if (accountManager.isAltOrShadow(handler.getPlayer())) {
             return;
         }
-        CoreUtils.getLoggerUtils().log("Player disconnected: " + handler.player.getName().getString());
+        LoggerUtils.getLogger().info("Player disconnected: {}", handler.player.getName().getString());
 //        accountManager.save(handler.player, accountManager.getData(handler.player));
 //        SessionUtils.saveSession(handler.player);
 //        DataManager.getMapManager().updateMapMarkers(handler.getPlayer());
@@ -43,8 +43,5 @@ public class ServerListener implements ServerPlayConnectionEvents.Join, ServerPl
             StorageManager.getStorage().saveAndRemove("playerdata." + handler.player.getUuid());
 
         }
-//        SessionUtils.startSession(handler.getPlayer());
-//        DataManager.getMapManager().readyAssets(handler.getPlayer());
-//        DataManager.getEventManager().handleJoin(handler.player);
     }
 }

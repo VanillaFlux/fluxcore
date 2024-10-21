@@ -1,4 +1,4 @@
-package me.quickscythe.fluxcore.utils;
+package me.quickscythe.fluxcore.api;
 
 import me.quickscythe.fluxcore.api.config.ConfigManager;
 import me.quickscythe.fluxcore.api.config.files.Default;
@@ -60,7 +60,9 @@ public class ApiManager {
     public static String appData(String s) {
         try {
             String surl = API_URL + "/app/v1/" + TOKEN + "/" + s;
+            System.out.println("surl = " + surl);
             URL url = URI.create(surl).toURL();
+            System.out.println("url = " + url);
             return getContext(url);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);

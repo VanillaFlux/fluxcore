@@ -1,24 +1,18 @@
 package me.quickscythe.fluxcore;
 
+import me.quickscythe.fluxcore.api.ApiManager;
 import me.quickscythe.fluxcore.api.FluxEntrypoint;
-import me.quickscythe.fluxcore.api.JavaMod;
-import net.fabricmc.loader.api.FabricLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import me.quickscythe.fluxcore.api.data.StorageManager;
+import me.quickscythe.fluxcore.listeners.ServerListener;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 
 public class FluxInitializer extends FluxEntrypoint {
-    public  String NAME = "FluxMod";
-    public String ID = "fluxmod";
-    public String VERSION = "DEBUG_VERSION";
-    public JavaMod mod = null;
-
-    private final Logger LOGGER = LoggerFactory.getLogger(FluxInitializer.class);
-
-
-
     @Override
     public void onInitialize() {
-        System.out.println("TEST");
-
+        ServerListener listener = new ServerListener();
+        ServerPlayConnectionEvents.JOIN.register(listener);
+        ServerPlayConnectionEvents.DISCONNECT.register(listener);
+        StorageManager.init(getMod());
+        ApiManager.init();
     }
 }

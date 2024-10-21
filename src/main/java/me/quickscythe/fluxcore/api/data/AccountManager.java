@@ -1,7 +1,6 @@
 package me.quickscythe.fluxcore.api.data;
 
 import org.json.JSONObject;
-import me.quickscythe.fluxcore.utils.CoreUtils;
 import me.quickscythe.fluxcore.api.logger.LoggerUtils;
 import me.quickscythe.fluxcore.api.sql.SqlUtils;
 import net.minecraft.server.MinecraftServer;
@@ -24,10 +23,10 @@ public class AccountManager extends DataManager {
         super("playerdata");
         playerFolder = new File(StorageManager.getConfigFolder(), getName());
         if (!playerFolder.exists()) {
-            CoreUtils.getLoggerUtils().log("Creating " + getName() + " folder: " + playerFolder.mkdir());
-            CoreUtils.getLoggerUtils().log("Syncing files.");
+            LoggerUtils.getLogger().info("Creating {} folder: {}", getName(), playerFolder.mkdir());
+            LoggerUtils.getLogger().info("Syncing files.");
             syncFiles();
-            CoreUtils.getLoggerUtils().log("Files synced.");
+            LoggerUtils.getLogger().info("Files synced.");
         }
     }
 
@@ -38,7 +37,7 @@ public class AccountManager extends DataManager {
             while (rs.next()) {
                 File file = new File(playerFolder, rs.getString("uuid") + ".json");
                 if (!file.exists())
-                    CoreUtils.getLoggerUtils().log("File doesn't exist. Creating: " + file.createNewFile());
+                    LoggerUtils.getLogger().info("File doesn't exist. Creating: {}", file.createNewFile());
                 JSONObject json = new JSONObject();
                 String uuid = rs.getString("uuid");
                 String username = rs.getString("username");
@@ -51,12 +50,8 @@ public class AccountManager extends DataManager {
                 storage.write(getName() + "." + uuid);
                 i = i + 1;
             }
-        } catch (SQLException e) {
-
-            CoreUtils.getLoggerUtils().log(LoggerUtils.LogLevel.ERROR, "There was an error syncing files.");
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (SQLException | IOException e) {
+            LoggerUtils.getLogger().error("There was an error syncing files.", e);
         }
     }
 
@@ -64,14 +59,13 @@ public class AccountManager extends DataManager {
         ResultSet rs = SqlUtils.getDatabase("core").query("SELECT * FROM users WHERE uuid='" + player.getUuid() + "';");
         try {
             if (rs.next()) {
-                CoreUtils.getLoggerUtils().log("Record exists. Updating.");
+                LoggerUtils.getLogger().info("Record exists. Updating.");
                 String sql = "UPDATE users SET username=\"" + player.getName().getString() + "\",last_seen=\"" + new Date().getTime() + "\",json=\"" + SqlUtils.escape(json.toString()) + "\" WHERE uuid=\"" + player.getUuid() + "\";";
-                CoreUtils.getLoggerUtils().log("Result: " + SqlUtils.getDatabase("core").update(sql));
+                SqlUtils.getDatabase("core").update(sql);
             } else {
-
-                CoreUtils.getLoggerUtils().log("No record. Creating.");
+                LoggerUtils.getLogger().info("No record. Creating.");
                 String sql = "INSERT INTO users(uuid,username,discord_key,discord_id,password,last_seen,json) VALUES ('" + player.getUuid() + "','" + player.getName().getString() + "','null','null','null','" + new Date().getTime() + "','" + SqlUtils.escape(json.toString()) + "');";
-                CoreUtils.getLoggerUtils().log("Result: " + SqlUtils.getDatabase("core").input(sql));
+                SqlUtils.getDatabase("core").input(sql);
             }
             rs.close();
             StorageManager.getStorage().load("playerdata." + player.getUuid());
@@ -99,7 +93,7 @@ public class AccountManager extends DataManager {
                 return new JSONObject(rs.getString("json"));
             }
         } catch (SQLException e) {
-            CoreUtils.getLoggerUtils().log(LoggerUtils.LogLevel.ERROR, "There was an error getting data for " + uid);
+            LoggerUtils.getLogger().error("There was an error getting data for {}", uid, e);
         }
         return new JSONObject();
     }
@@ -122,14 +116,14 @@ public class AccountManager extends DataManager {
         MinecraftServer server = player.getServer();
         assert server != null;
         if (!server.getPlayerManager().getWhitelist().isAllowed(player.getGameProfile())) {
-            CoreUtils.getLoggerUtils().log("Player is not whitelisted. Skipping...");
+            LoggerUtils.getLogger().info("Player is not whitelisted. Skipping...");
             return true;
         }
         InternalStorage storage = StorageManager.getStorage();
         JSONObject alts = (JSONObject) storage.load("data.alts");
         for (String key : alts.keySet()) {
             if (alts.getString(key).equalsIgnoreCase(player.getName().getString())) {
-                CoreUtils.getLoggerUtils().log("Player is an alt of " + ((AccountManager) StorageManager.getDataManager("playerdata")).getUsername(UUID.fromString(key)) + ". Skipping...");
+                LoggerUtils.getLogger().info("Player is an alt of " + ((AccountManager) StorageManager.getDataManager("playerdata")).getUsername(UUID.fromString(key)) + ". Skipping...");
                 return true;
             }
         }

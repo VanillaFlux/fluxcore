@@ -1,8 +1,8 @@
 package me.quickscythe.fluxcore.api.data;
 
+import me.quickscythe.fluxcore.api.logger.LoggerUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import me.quickscythe.fluxcore.utils.CoreUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -104,12 +104,12 @@ public class InternalStorage {
 
         try {
             File file = new File(StorageManager.getConfigFolder(), fileName);
-            CoreUtils.getLoggerUtils().getLogger().info("Checking if file exists: {}", file.getAbsolutePath());
+            LoggerUtils.getLogger().info("Checking if file exists: {}", file.getAbsolutePath());
             if (!(file.getParentFile() == null)) if (!file.getParentFile().exists()) {
-                CoreUtils.getLoggerUtils().getLogger().info("Creating directories {}: {}", file.getParentFile().getPath(), file.getParentFile().mkdirs());
+                LoggerUtils.getLogger().info("Creating directories {}: {}", file.getParentFile().getPath(), file.getParentFile().mkdirs());
             }
             if (!file.exists())
-                CoreUtils.getLoggerUtils().getLogger().info("Creating file {}: {}", file.getName(), file.createNewFile());
+                LoggerUtils.getLogger().info("Creating file {}: {}", file.getName(), file.createNewFile());
             FileWriter f2 = new FileWriter(file, false);
             Object object = get(path);
             String context;
@@ -122,12 +122,12 @@ public class InternalStorage {
             }
 
 //            System.out.println(context);
-            CoreUtils.getLoggerUtils().getLogger().info("Writing to file: {}", fileName);
+            LoggerUtils.getLogger().info("Writing to file: {}", fileName);
             f2.write(context);
             f2.close();
-            CoreUtils.getLoggerUtils().getLogger().info("File written: {}", fileName);
+            LoggerUtils.getLogger().info("File written: {}", fileName);
         } catch (Exception e) {
-            CoreUtils.getLoggerUtils().getLogger().error("There was an error saving {}", fileName, e);
+            LoggerUtils.getLogger().error("There was an error saving {}", fileName, e);
         }
 
     }
@@ -137,9 +137,9 @@ public class InternalStorage {
     }
 
     public Object load(File file) {
-        CoreUtils.getLoggerUtils().getLogger().info("Loading {}", file.getAbsolutePath());
+        LoggerUtils.getLogger().info("Loading {}", file.getAbsolutePath());
         try {
-            CoreUtils.getLoggerUtils().getLogger().info("File exists: {}", file.exists());
+            LoggerUtils.getLogger().info("File exists: {}", file.exists());
             Scanner scanner = new Scanner(file);
             StringBuilder sb = new StringBuilder();
             while (scanner.hasNextLine()) sb.append(scanner.nextLine());
@@ -149,7 +149,7 @@ public class InternalStorage {
             if(key.startsWith("config")){
                 key = key.substring(21);
             }
-            CoreUtils.getLoggerUtils().getLogger().info("Loading {} into {}", file.getName(), key);
+            LoggerUtils.getLogger().info("Loading {} into {}", file.getName(), key);
             String context = sb.toString();
 
             Object o = context.isEmpty() ? null : context;
@@ -164,8 +164,8 @@ public class InternalStorage {
             return o;
         } catch (IOException e) {
             if (file.isDirectory()) {
-                CoreUtils.getLoggerUtils().getLogger().error("Can not write to folder: {}", file.getName(), e);
-            } else CoreUtils.getLoggerUtils().getLogger().error("There was an error loading {}", file.getName(), e);
+                LoggerUtils.getLogger().error("Can not write to folder: {}", file.getName(), e);
+            } else LoggerUtils.getLogger().error("There was an error loading {}", file.getName(), e);
         }
         return null;
     }

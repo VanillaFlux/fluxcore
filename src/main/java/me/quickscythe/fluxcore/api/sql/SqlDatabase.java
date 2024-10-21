@@ -1,7 +1,6 @@
 package me.quickscythe.fluxcore.api.sql;
 
-
-import me.quickscythe.fluxcore.utils.CoreUtils;
+import me.quickscythe.fluxcore.api.logger.LoggerUtils;
 
 import java.sql.*;
 import java.util.Properties;
@@ -36,21 +35,10 @@ public class SqlDatabase {
             }
 
         } catch (SQLException | ClassNotFoundException ex) {
-            CoreUtils.getLoggerUtils().log("An error occurred while connecting databse");
+            LoggerUtils.getLogger().info("An error occurred while connecting databse ({})", url);
             return false;
         }
-//		try {
-//			if (connection != null && !connection.isClosed()) {
-//				return true;
-//			}
-//			Class.forName("com.mysql.jbdc.Driver");
-//			this.connection = DriverManager.getConnection(url, user, pass);
-//			return true;
-//		} catch (Exception exception) {
-//			exception.printStackTrace();
-//			return false;
         return false;
-//		}
     }
 
     public ResultSet query(String query, Object... values) {
@@ -73,7 +61,6 @@ public class SqlDatabase {
             }
             return statement.executeUpdate();
         } catch (Exception exception) {
-            CoreUtils.getLoggerUtils().log("An error occurred while updating database");
             return -1;
         }
 

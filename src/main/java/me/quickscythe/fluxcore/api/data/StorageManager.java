@@ -3,7 +3,7 @@ package me.quickscythe.fluxcore.api.data;
 import me.quickscythe.fluxcore.api.JavaMod;
 import me.quickscythe.fluxcore.api.config.ConfigManager;
 import me.quickscythe.fluxcore.api.config.files.Default;
-import me.quickscythe.fluxcore.utils.CoreUtils;
+import me.quickscythe.fluxcore.api.logger.LoggerUtils;
 
 import java.io.*;
 import java.util.HashMap;
@@ -19,11 +19,10 @@ public class StorageManager {
 
         configFolder = new File("fluxdata");
         if (!configFolder.exists()) {
-            CoreUtils.getLoggerUtils().log("Creating " + configFolder.getName() + " folder: " + configFolder.mkdir());
+            LoggerUtils.getLogger().info("Creating {} folder: {}", configFolder.getName(), configFolder.mkdir());
         }
         registerDataManager(new AccountManager());
         ConfigManager.registerConfig(mod, Default.class);
-//        ConfigFile file = ConfigFileManager.getFile("config", "defaults/config.json");
 
     }
 

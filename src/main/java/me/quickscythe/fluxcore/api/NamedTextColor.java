@@ -1,4 +1,4 @@
-package me.quickscythe.fluxcore.utils;
+package me.quickscythe.fluxcore.api;
 
 import net.minecraft.text.TextColor;
 import net.minecraft.util.Formatting;

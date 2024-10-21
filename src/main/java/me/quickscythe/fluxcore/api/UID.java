@@ -1,4 +1,4 @@
-package me.quickscythe.fluxcore.utils;
+package me.quickscythe.fluxcore.api;
 
 import java.security.SecureRandom;
 import java.util.Objects;
