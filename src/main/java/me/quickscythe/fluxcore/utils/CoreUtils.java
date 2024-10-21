@@ -15,6 +15,7 @@ public class CoreUtils {
 
     public static void init(FabricInitializer initializer){
         loggerUtils = new LoggerUtils();
+        loggerUtils.getLogger().info("Starting FluxCore api...");
 //        loggerUtils.log("Starting " + initializer.NAME + " v" + initializer.VERSION + " (" + initializer.ID + ")...");
         SqlUtils.createDatabase("core", new SqlDatabase(SqlUtils.SQLDriver.MYSQL, "sql.vanillaflux.com", "vanillaflux", 3306, "sys", "9gGKGqthQJ&!#DGd"));
         SqlUtils.getDatabase("core");
