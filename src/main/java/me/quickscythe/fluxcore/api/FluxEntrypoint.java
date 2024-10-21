@@ -5,9 +5,15 @@ import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
 
 public class FluxEntrypoint {
 
-    public static void run(EntrypointContainer<FluxEntrypoint> entrypoint) {
-        ModContainer mod = entrypoint.getProvider();
-        System.out.println("Hello from " + mod.getMetadata().getId() + "!");
+    private JavaMod mod;
+
+    public void run(EntrypointContainer<FluxEntrypoint> entrypoint) {
+        ModContainer container = entrypoint.getProvider();
+        mod = new JavaMod(container.getMetadata());
+    }
+
+    public JavaMod getMod() {
+        return mod;
     }
 
 }

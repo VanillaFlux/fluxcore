@@ -1,6 +1,6 @@
 package me.quickscythe.fluxcore.utils;
 
-import json2.JSONObject;
+import org.json.JSONObject;
 import me.quickscythe.fluxcore.utils.config.ConfigFileManager;
 
 import java.io.BufferedReader;

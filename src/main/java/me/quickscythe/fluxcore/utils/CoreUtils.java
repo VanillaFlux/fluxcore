@@ -1,10 +1,10 @@
 package me.quickscythe.fluxcore.utils;
 
 import me.quickscythe.fluxcore.Initializer;
-import me.quickscythe.fluxcore.utils.data.StorageManager;
-import me.quickscythe.fluxcore.utils.logger.LoggerUtils;
-import me.quickscythe.fluxcore.utils.sql.SqlDatabase;
-import me.quickscythe.fluxcore.utils.sql.SqlUtils;
+import me.quickscythe.fluxcore.api.data.StorageManager;
+import me.quickscythe.fluxcore.api.logger.LoggerUtils;
+import me.quickscythe.fluxcore.api.sql.SqlDatabase;
+import me.quickscythe.fluxcore.api.sql.SqlUtils;
 
 public class CoreUtils {
 

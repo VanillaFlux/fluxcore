@@ -16,7 +16,7 @@ public class Initializer extends FluxInitializer {
         super.onInitialize();
 
         CoreUtils.init(this);
-        FabricLoader.getInstance().getEntrypointContainers("fluxcore", FluxEntrypoint.class).forEach(FluxEntrypoint::run);
+        FabricLoader.getInstance().getEntrypointContainers("fluxcore", FluxEntrypoint.class).forEach(obj -> obj.getEntrypoint().run(obj));
 //        FabricLoader.getEntrypointContainers("coolname", MyEntrypoint.class).forEach(MyEntrypoint::run);
 
 
