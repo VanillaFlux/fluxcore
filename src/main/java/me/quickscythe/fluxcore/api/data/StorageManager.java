@@ -15,14 +15,14 @@ public class StorageManager {
 
     private static final InternalStorage storage = new InternalStorage();
     private static final Map<String, DataManager> dataManagers = new HashMap<>();
-    public static void init(JavaMod mod) {
+    public static void init() {
 
         configFolder = new File("fluxdata");
         if (!configFolder.exists()) {
             LoggerUtils.getLogger().info("Creating {} folder: {}", configFolder.getName(), configFolder.mkdir());
         }
         registerDataManager(new AccountManager());
-        ConfigManager.registerConfig(mod, Default.class);
+
 
     }
 
