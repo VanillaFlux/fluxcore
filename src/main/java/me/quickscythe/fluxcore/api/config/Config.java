@@ -33,6 +33,7 @@ public class Config {
         } else {
             throw new IllegalArgumentException("Class must have @Config.File annotation");
         }
+        write();
     }
 
     private JSONObject load(java.io.File file) {

@@ -3,6 +3,7 @@ package me.quickscythe.fluxcore;
 import me.quickscythe.fluxcore.api.ApiManager;
 import me.quickscythe.fluxcore.api.FluxEntrypoint;
 import me.quickscythe.fluxcore.api.data.StorageManager;
+import me.quickscythe.fluxcore.api.logger.LoggerUtils;
 import me.quickscythe.fluxcore.listeners.ServerListener;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 

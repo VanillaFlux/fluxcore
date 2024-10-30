@@ -6,6 +6,7 @@ import net.fabricmc.loader.api.metadata.Person;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Objects;
 
 public class JavaMod {
 
@@ -28,6 +29,7 @@ public class JavaMod {
         this.dataFolder = new File("config/" + name +"/");
         if(!dataFolder.exists()) dataFolder.mkdirs();
     }
+
 
     public String getName(){
         return name;

@@ -15,6 +15,8 @@ public abstract class FluxEntrypoint {
         ModContainer container = entrypoint.getProvider();
         mod = new JavaMod(container.getMetadata());
         LOGGER.info("Initializing {} v{} ({})...", mod.getName(), mod.getVersion(), mod.getId());
+        onInitialize();
+//        LOGGER.info("Initializing {} v{} ({})...", mod.getName(), mod.getVersion(), mod.getId());
     }
 
     public JavaMod getMod() {
