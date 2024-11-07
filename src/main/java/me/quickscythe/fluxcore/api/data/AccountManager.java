@@ -123,7 +123,7 @@ public class AccountManager extends DataManager {
         JSONObject alts = (JSONObject) storage.load("data.alts");
         for (String key : alts.keySet()) {
             if (alts.getString(key).equalsIgnoreCase(player.getName().getString())) {
-                LoggerUtils.getLogger().info("Player is an alt of " + ((AccountManager) StorageManager.getDataManager("playerdata")).getUsername(UUID.fromString(key)) + ". Skipping...");
+                LoggerUtils.getLogger().info("Player is an alt of {}. Skipping...", ((AccountManager) StorageManager.getDataManager("playerdata")).getUsername(UUID.fromString(key)));
                 return true;
             }
         }

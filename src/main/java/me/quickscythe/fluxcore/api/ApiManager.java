@@ -2,6 +2,7 @@ package me.quickscythe.fluxcore.api;
 
 import me.quickscythe.fluxcore.api.config.ConfigManager;
 import me.quickscythe.fluxcore.api.config.files.Default;
+import me.quickscythe.fluxcore.api.logger.LoggerUtils;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -17,12 +18,15 @@ public class ApiManager {
     private static String API_URL = "";
 
     public static void init(){
+
         API_URL = (String) ConfigManager.getConfig(Default.class).get("api_url");
+        LoggerUtils.getLogger().info("Initializing API Manager... ({})", API_URL);
        generateNewToken();
     }
 
     private static void generateNewToken() {
         try {
+            LoggerUtils.getLogger().info("Generating new token... ({})", API_URL);
             TOKEN = new JSONObject(getContext(URI.create(API_URL + "/app/token").toURL())).getString("success");
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
