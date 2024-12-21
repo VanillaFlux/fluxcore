@@ -56,8 +56,9 @@ public class AccountManager extends DataManager {
     }
 
     public void save(ServerPlayerEntity player, JSONObject json) {
-        ResultSet rs = SqlUtils.getDatabase("core").query("SELECT * FROM users WHERE uuid='" + player.getUuid() + "';");
+
         try {
+            ResultSet rs = SqlUtils.getDatabase("core").query("SELECT * FROM users WHERE uuid='" + player.getUuid() + "';");
             if (rs.next()) {
                 LoggerUtils.getLogger().info("Record exists. Updating.");
                 String sql = "UPDATE users SET username=\"" + player.getName().getString() + "\",last_seen=\"" + new Date().getTime() + "\",json=\"" + SqlUtils.escape(json.toString()) + "\" WHERE uuid=\"" + player.getUuid() + "\";";
@@ -70,8 +71,8 @@ public class AccountManager extends DataManager {
             rs.close();
             StorageManager.getStorage().load("playerdata." + player.getUuid());
             StorageManager.getStorage().set("playerdata." + player.getUuid() + ".username", player.getName().getString());
-        } catch (SQLException e) {
-            throw new RuntimeException("There was an error saving " + player.getName() + " data.");
+        } catch (Exception e) {
+            LoggerUtils.getLogger().error("There was an error saving {} data.", player.getName().getString(), e);
         }
 
     }
@@ -81,8 +82,9 @@ public class AccountManager extends DataManager {
     }
 
     public JSONObject getData(UUID uid) {
-        ResultSet rs = SqlUtils.getDatabase("core").query("SELECT * FROM users WHERE UUID='" + uid.toString() + "';");
+
         try {
+            ResultSet rs = SqlUtils.getDatabase("core").query("SELECT * FROM users WHERE UUID='" + uid.toString() + "';");
             if (rs.next()) {
                 JSONObject r = new JSONObject(rs.getString("json"));
                 r.put("uuid", uid.toString());
@@ -92,7 +94,7 @@ public class AccountManager extends DataManager {
                 r.put("qid", getQuickID(uid));
                 return new JSONObject(rs.getString("json"));
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             LoggerUtils.getLogger().error("There was an error getting data for {}", uid, e);
         }
         return new JSONObject();

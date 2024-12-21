@@ -34,13 +34,18 @@ public class ServerListener implements ServerPlayConnectionEvents.Join, ServerPl
             return;
         }
         if (!new File(accountManager.getPlayerFolder(), handler.player.getUuid().toString() + ".json").exists()) {
-            String sql = "INSERT INTO users(uuid,username,discord_key,discord_id,password,last_seen,json) VALUES ('" + handler.player.getUuid() + "','" + handler.player.getName().getString() + "','null','null','null','" + new Date().getTime() + "','{}');";
-            SqlUtils.getDatabase("core").input(sql);
-            JSONObject data = new JSONObject();
-            data.put("username", handler.player.getName().getString());
-            data.put("qid", accountManager.getAccounts().keySet().size());
-            StorageManager.getStorage().set("playerdata." + handler.player.getUuid(), data);
-            StorageManager.getStorage().saveAndRemove("playerdata." + handler.player.getUuid());
+            try {
+                String sql = "INSERT INTO users(uuid,username,discord_key,discord_id,password,last_seen,json) VALUES ('" + handler.player.getUuid() + "','" + handler.player.getName().getString() + "','null','null','null','" + new Date().getTime() + "','{}');";
+
+                SqlUtils.getDatabase("core").input(sql);
+                JSONObject data = new JSONObject();
+                data.put("username", handler.player.getName().getString());
+                data.put("qid", accountManager.getAccounts().keySet().size());
+                StorageManager.getStorage().set("playerdata." + handler.player.getUuid(), data);
+                StorageManager.getStorage().saveAndRemove("playerdata." + handler.player.getUuid());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
         }
     }
