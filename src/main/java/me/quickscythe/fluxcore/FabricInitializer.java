@@ -14,7 +14,7 @@ public class FabricInitializer implements ModInitializer {
     @Override
     public void onInitialize() {
         SqlUtils.createDatabase("core", new SqlDatabase(SqlUtils.SQLDriver.MYSQL, "sql.vanillaflux.com", "vanillaflux", 3306, "sys", "9gGKGqthQJ&!#DGd"));
-        SqlUtils.getDatabase("core");
+//        SqlUtils.getDatabase("core");
         StorageManager.init();
 
         LoggerUtils.getLogger().info("FluxCore api is now initiating...");

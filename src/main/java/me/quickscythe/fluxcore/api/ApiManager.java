@@ -3,14 +3,13 @@ package me.quickscythe.fluxcore.api;
 import me.quickscythe.fluxcore.api.config.ConfigManager;
 import me.quickscythe.fluxcore.api.config.files.Default;
 import me.quickscythe.fluxcore.api.logger.LoggerUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
+import java.net.*;
 
 public class ApiManager {
 
@@ -29,7 +28,10 @@ public class ApiManager {
             LoggerUtils.getLogger().info("Generating new token... ({})", API_URL);
             TOKEN = new JSONObject(getContext(URI.create(API_URL + "/app/token").toURL())).getString("success");
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            LoggerUtils.getLogger().error("URL malformed. Couldn't generate new token. ({})", e.getMessage());
+        } catch (JSONException e){
+            LoggerUtils.getLogger().error("Failed to generate new token. ({})", e.getMessage());
+            TOKEN = "";
         }
     }
 
@@ -39,7 +41,7 @@ public class ApiManager {
                 generateNewToken();
             }
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            LoggerUtils.getLogger().error("Failed to check token. ({})", e.getMessage());
         }
     }
 
@@ -48,6 +50,11 @@ public class ApiManager {
         try {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
+            conn.setDoOutput(true);
+            conn.setReadTimeout(5000);
+            conn.setConnectTimeout(5000);
+            conn.setUseCaches(false);
+            conn.setAllowUserInteraction(false);
 
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
@@ -55,8 +62,9 @@ public class ApiManager {
                 result.append(line);
             }
             rd.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            LoggerUtils.getLogger().error("Failed to get context. ({})", e.getMessage());
+            return "";
         }
         return result.toString();
     }
@@ -69,7 +77,8 @@ public class ApiManager {
             System.out.println("url = " + url);
             return getContext(url);
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            LoggerUtils.getLogger().error("Failed to get app data. ({})", e.getMessage());
+            return "";
         }
     }
 }
